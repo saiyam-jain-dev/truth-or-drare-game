@@ -92,7 +92,22 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log(`User disconnected: ${socket.id}`);
-    // In a real app we'd clean up rooms, but for this demo keeping it simple
+    // Clean up room when user disconnects
+    for (const roomCode in rooms) {
+      const room = rooms[roomCode];
+      const playerIndex = room.players.findIndex(p => p.socketId === socket.id);
+      
+      if (playerIndex !== -1) {
+        const leavingPlayer = room.players[playerIndex];
+        room.players.splice(playerIndex, 1);
+        
+        if (room.players.length > 0) {
+          io.to(roomCode).emit('player_left', { username: leavingPlayer.username });
+        }
+        delete rooms[roomCode];
+        break; // A socket can only be in one room in this app
+      }
+    }
   });
 });
 

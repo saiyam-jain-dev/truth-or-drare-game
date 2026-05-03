@@ -2,7 +2,9 @@ import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const hostname = window.location.hostname;
+const defaultBackend = hostname === 'localhost' ? 'http://localhost:5000' : `http://${hostname}:5000`;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || defaultBackend;
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

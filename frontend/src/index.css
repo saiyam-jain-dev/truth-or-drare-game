@@ -166,6 +166,11 @@ h1, h2, h3 {
   margin-top: 2rem;
 }
 
+.join-form {
+  display: flex;
+  gap: 10px;
+}
+
 .question-display {
   font-size: 2rem;
   font-weight: 300;
@@ -216,5 +221,11 @@ h1, h2, h3 {
   }
   .question-display {
     font-size: 1.5rem;
+  }
+  .join-form {
+    flex-direction: column;
+  }
+  .join-form button {
+    width: 100% !important;
   }
 }

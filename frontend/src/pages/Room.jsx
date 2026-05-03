@@ -5,7 +5,8 @@ import { AuthContext } from '../context/AuthContext';
 import { questionsData } from '../data/questions';
 
 const Room = () => {
-  const { id: roomCode } = useParams();
+  const { id } = useParams();
+  const roomCode = id.trim().toUpperCase();
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [socket, setSocket] = useState(null);
@@ -19,7 +20,9 @@ const Room = () => {
     if (!user) return;
 
     if (!socketRef.current) {
-      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+      const hostname = window.location.hostname;
+      const defaultBackend = hostname === 'localhost' ? 'http://localhost:5000' : `http://${hostname}:5000`;
+      const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || defaultBackend;
       socketRef.current = io(BACKEND_URL);
       setSocket(socketRef.current);
     }
@@ -32,6 +35,10 @@ const Room = () => {
     s.on('game_start', (data) => setRoomState(data));
     s.on('action_chosen', (data) => setRoomState(data));
     s.on('turn_update', (data) => setRoomState(data));
+    s.on('player_left', (data) => {
+      alert(`${data.username} left the room`);
+      navigate('/home');
+    });
 
     return () => {
       s.disconnect();

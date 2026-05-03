@@ -8,15 +8,19 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleCreateRoom = () => {
-    // Generate a random 6 character alphanumeric code
-    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+    // Generate a random 6 character alphanumeric code without O, 0, I, 1
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
     navigate(`/room/${code}`);
   };
 
   const handleJoinRoom = (e) => {
     e.preventDefault();
     if (roomCode.trim()) {
-      navigate(`/room/${roomCode.toUpperCase()}`);
+      navigate(`/room/${roomCode.trim().toUpperCase()}`);
     }
   };
 
@@ -48,7 +52,7 @@ const Home = () => {
 
         <div>
           <h3 style={{ marginBottom: '1rem', color: 'var(--accent-purple)' }}>Join a Game</h3>
-          <form onSubmit={handleJoinRoom} style={{ display: 'flex', gap: '10px' }}>
+          <form onSubmit={handleJoinRoom} className="join-form">
             <input
               type="text"
               className="neon-input"
