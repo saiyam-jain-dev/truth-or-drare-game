@@ -61,12 +61,12 @@ const Room = () => {
   return (
     <div className="page-container">
       <div className="room-container glass-panel">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <div>
-            <span style={{ color: '#888', marginRight: '1rem' }}>Room: <strong style={{ color: 'white' }}>{roomCode}</strong></span>
+        <div className="room-header">
+          <div className="room-header-stats">
+            <span style={{ color: '#888' }}>Room: <strong style={{ color: 'white' }}>{roomCode}</strong></span>
             <span style={{ color: '#888' }}>Players: <strong style={{ color: 'white' }}>{roomState.players.length}/2</strong></span>
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div className="room-header-buttons">
             <button 
               onClick={() => navigate('/home')} 
               style={{ background: 'none', border: '1px solid var(--accent-blue)', color: 'var(--accent-blue)', padding: '0.5rem 1rem', borderRadius: '8px', cursor: 'pointer', fontSize: '0.8rem', textTransform: 'uppercase', transition: 'all 0.3s ease' }}
