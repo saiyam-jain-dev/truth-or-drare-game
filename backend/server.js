@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const { Server } = require('socket.io');
 const authRoutes = require('./routes/auth');
+require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
@@ -11,8 +12,13 @@ const server = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 
-// Replace this with your actual MongoDB URI later if needed
-const MONGODB_URI = 'mongodb+srv://mampuia3133_db_user:Iamyour313@cluster0.yipwgd3.mongodb.net/truthordare?retryWrites=true&w=majority&appName=Cluster0';
+// Get MongoDB URI from environment variables
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error("Missing MONGODB_URI environment variable.");
+  process.exit(1);
+}
 
 mongoose
   .connect(MONGODB_URI)
