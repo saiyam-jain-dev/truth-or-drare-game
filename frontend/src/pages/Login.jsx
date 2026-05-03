@@ -109,7 +109,7 @@ const Login = () => {
                 required
               />
               <p style={{ color: '#aaa', fontSize: '0.8rem', marginTop: '0.5rem', textAlign: 'center' }}>
-                (Enter OTP sent to your mobile number)
+                (Enter OTP sent to mobile/email)
               </p>
               <p style={{ color: 'var(--accent-pink)', fontSize: '0.8rem', marginTop: '0.5rem', textAlign: 'center' }}>
                 It might take 30sec to receive OTP

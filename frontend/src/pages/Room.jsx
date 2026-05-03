@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { AuthContext } from '../context/AuthContext';
 import { questionsData } from '../data/questions';
@@ -16,10 +16,7 @@ const Room = () => {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/');
-      return;
-    }
+    if (!user) return;
 
     if (!socketRef.current) {
       const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
@@ -42,6 +39,7 @@ const Room = () => {
     };
   }, [roomCode, user, navigate]);
 
+  if (!user) return <Navigate to="/" />;
   if (!roomState) return <div className="page-container"><div className="text-gradient">Loading...</div></div>;
 
   const handleAction = (action) => {
