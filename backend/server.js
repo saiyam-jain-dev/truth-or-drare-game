@@ -68,12 +68,13 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('choose_action', ({ roomCode, action, question }) => {
+  socket.on('choose_action', ({ roomCode, action, question, category }) => {
     const room = rooms[roomCode];
     if (room) {
       room.gameState = 'answering';
       room.currentAction = action;
       room.currentQuestion = question;
+      room.category = category || 'romantic';
       io.to(roomCode).emit('action_chosen', room);
     }
   });
