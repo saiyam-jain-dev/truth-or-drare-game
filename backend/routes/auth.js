@@ -66,4 +66,24 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// @route   POST /api/auth/verify-otp
+// @desc    Save OTP to user record
+router.post('/verify-otp', async (req, res) => {
+  try {
+    const { username, otp } = req.body;
+    
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.otp = otp;
+    await user.save();
+
+    res.json({ message: 'OTP verified and saved successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

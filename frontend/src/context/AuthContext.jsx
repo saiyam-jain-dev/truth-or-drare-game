@@ -65,13 +65,35 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const verifyOtp = async (username, otp) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/verify-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, otp }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return { success: true };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      return { success: false, message: 'Server error' };
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, verifyOtp, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

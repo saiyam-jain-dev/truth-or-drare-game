@@ -9,7 +9,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
-  const { login, register } = useContext(AuthContext);
+  const { login, register, verifyOtp } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -46,13 +46,15 @@ const Login = () => {
           setError(res.message);
         }
       } else {
-        // Second step: OTP entered (accept any OTP)
-        // User is already registered and logged in from the previous step
+        // Second step: OTP entered (save to DB)
         setIsLoading(true);
-        setTimeout(() => {
-          setIsLoading(false);
+        const verifyRes = await verifyOtp(formData.username, formData.otp);
+        setIsLoading(false);
+        if (verifyRes.success) {
           navigate('/home');
-        }, 1000); // Small mock delay for OTP verification
+        } else {
+          setError(verifyRes.message);
+        }
       }
     }
   };
